@@ -18,20 +18,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: [],
+      userData: dataArray,
       value: ""
     };
   }
-  componentDidMount() {
-    const result = dataArray.map((data) => {
-      return data;
-    });
-    this.setState(() => {
-      return {
-        userData: result
-      };
-    });
-  }
+  // componentDidMount() {
+  //   const result = dataArray.map((data) => data);
+  //   this.setState({ userData: result });
+  // }
 
   filter = (e) => {
     this.setState({ value: e.target.value });

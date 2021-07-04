@@ -1,9 +1,9 @@
 import React from "react";
 
 const MapData = (props) => {
-  return props.userData.map((data) => {
+  return props.userData.map((data, idx) => {
     return (
-      <div>
+      <div key={idx}>
         <h1>{data}</h1>
       </div>
     );

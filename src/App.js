@@ -10,15 +10,15 @@ const dataArray = [
   "Sophia",
   "Simon",
   "Matt",
-  "Mark"
+  "Mark",
+  "Simin"
 ];
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: [],
-      value: ""
+      userData: []
     };
   }
   componentDidMount() {
@@ -32,42 +32,41 @@ class App extends React.Component {
     });
   }
 
-  getValue = (e) => {
-    this.setState(() => {
-      return {
-        value: e.target.value
-      };
-    });
-    this.filter(e);
-  };
   filter = (e) => {
-    this.setState(() => {
+    this.setState((prevState) => {
+      console.log("filter", this.state.userData);
       return {
-        userData: this.state.userData.filter((words) => {
-          return words.toLowerCase().includes(e.target.value);
+        userData: prevState.userData.filter((words) => {
+          return words.toLowerCase().includes(e.target.value.toLowerCase());
         })
       };
     });
   };
+
+  onKeyDown = (e) => {
+    if (e.keyCode === 8) {
+      this.setState((prevState) => {
+        console.log("back", prevState.userData);
+        return {
+          userData: dataArray.map((data) => {
+            return data;
+          })
+        };
+      });
+    }
+  };
+  // Create a function that will display results when characters are removed
+
   render() {
     return (
       <>
         <label>Search</label>
         <input
-          onChange={(e) => {
-            this.getValue(e);
-          }}
+          onChange={this.filter}
+          onKeyDown={this.onKeyDown}
           placeholder="Search"
         />
-        {/* <MapData userData={this.state.userData} /> */}
-        {this.state.userData.map((data, idx) => {
-          return (
-            <div key={idx}>
-              <h1>{data}</h1>
-            </div>
-          );
-        })}
-        ;<h2>Value: {this.state.value}</h2>
+        <MapData userData={this.state.userData} />
       </>
     );
   }

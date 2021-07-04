@@ -18,7 +18,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: []
+      userData: [],
+      value: ""
     };
   }
   componentDidMount() {
@@ -33,40 +34,29 @@ class App extends React.Component {
   }
 
   filter = (e) => {
-    this.setState((prevState) => {
-      console.log("filter", this.state.userData);
-      return {
-        userData: prevState.userData.filter((words) => {
-          return words.toLowerCase().includes(e.target.value.toLowerCase());
-        })
-      };
-    });
+    this.setState({ value: e.target.value });
   };
 
-  onKeyDown = (e) => {
-    if (e.keyCode === 8) {
-      this.setState((prevState) => {
-        console.log("back", prevState.userData);
-        return {
-          userData: dataArray.map((data) => {
-            return data;
-          })
-        };
-      });
-    }
+  dynamicSearch = () => {
+    return this.state.userData.filter((words) =>
+      words.toLowerCase().includes(this.state.value)
+    );
   };
-  // Create a function that will display results when characters are removed
 
   render() {
     return (
       <>
         <label>Search</label>
-        <input
-          onChange={this.filter}
-          onKeyDown={this.onKeyDown}
-          placeholder="Search"
-        />
-        <MapData userData={this.state.userData} />
+        <input onChange={this.filter} placeholder="Search" />
+        {this.dynamicSearch().map((data, idx) => {
+          return (
+            <div key={idx}>
+              <h1>{data}</h1>
+            </div>
+          );
+        })}
+        {/* <MapData userData={this.dynamicSearch()} /> */}
+        <h2>Value: {this.state.value}</h2>
       </>
     );
   }
